@@ -60,7 +60,7 @@ SELECT employee_name FROM meve_works WHERE salary >= 12000;
 SELECT employee_name FROM meve_works WHERE salary < 12000;
 
 -- Find the names and company of all employees whose salary is (i) 12000 (ii) >=12000 (iii) <12000
-SELECT employee_name, company_name FROM meve_works WHERE salary = 12000;
+SELECT employee_name, company_name FROM meve_works WHERE salary = 12000; 
 SELECT employee_name, company_name FROM meve_works WHERE salary >= 12000;
 SELECT employee_name, company_name FROM meve_works WHERE salary < 12000;
 
@@ -98,7 +98,7 @@ WHERE w.company_name = 'Sonali' AND w.salary > 12000;
 SELECT e.employee_name
 FROM meve_employee e
 WHERE NOT EXISTS (
-    SELECT 1 FROM meve_works w
+    SELECT 1  FROM meve_works w
     WHERE e.employee_name = w.employee_name AND w.company_name = 'Sonali'
 );
 
