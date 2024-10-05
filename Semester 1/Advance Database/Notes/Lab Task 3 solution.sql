@@ -91,15 +91,20 @@ INSERT ALL
     INTO meve_owns (nid, license) VALUES (123457, '12-3000')
 SELECT * FROM dual;
 
+SELECT *
+FROM meve_accident
+
+DROP TABLE meve_log;
+
 -- Insert data into meve_Log
 INSERT ALL
-    INTO meve_Log (license, adate, driver) VALUES ('11-3000', TO_DATE('12/01/2013', 'DD/MM/YYYY'), 123451)
-    INTO meve_Log (license, adate, driver) VALUES ('12-4000', TO_DATE('25/09/2015', 'DD/MM/YYYY'), 123452)
-    INTO meve_Log (license, adate, driver) VALUES ('11-6000', TO_DATE('20/06/2014', 'DD/MM/YYYY'), 123453)
-    INTO meve_Log (license, adate, driver) VALUES ('11-5000', TO_DATE('20/12/2011', 'DD/MM/YYYY'), 123454)
-    INTO meve_Log (license, adate, driver) VALUES ('12-6000', TO_DATE('19/09/2015', 'DD/MM/YYYY'), 123455)
-    INTO meve_Log (license, adate, driver) VALUES ('11-3000', TO_DATE('15/05/2013', 'DD/MM/YYYY'), 123451)
-    INTO meve_Log (license, adate, driver) VALUES ('11-3000', TO_DATE('20/08/2014', 'DD/MM/YYYY'), 123451)
+    INTO meve_Log (license, adate, driver) VALUES ('11-3000', TO_DATE('12/01/2013', 'DD/MM/YYYY'), 'Arif')
+    INTO meve_Log (license, adate, driver) VALUES ('12-4000', TO_DATE('25/09/2015', 'DD/MM/YYYY'), 'Komol')
+    INTO meve_Log (license, adate, driver) VALUES ('11-6000', TO_DATE('20/06/2014', 'DD/MM/YYYY'), 'Bahadur')
+    INTO meve_Log (license, adate, driver) VALUES ('11-5000', TO_DATE('20/12/2011', 'DD/MM/YYYY'), 'Abdul')
+    INTO meve_Log (license, adate, driver) VALUES ('12-6000', TO_DATE('19/09/2015', 'DD/MM/YYYY'), 'Akter')
+    INTO meve_Log (license, adate, driver) VALUES ('11-3000', TO_DATE('15/05/2013', 'DD/MM/YYYY'), 'Arif')
+    INTO meve_Log (license, adate, driver) VALUES ('11-3000', TO_DATE('20/08/2014', 'DD/MM/YYYY'), 'Arif')
 SELECT * FROM dual;
 
 
@@ -110,30 +115,100 @@ meve_owns (nid, license)
 meve_log (license, adate, driver)
 
 
-SELECT 
 
 ----------
 --b
 SELECT 	name
 FROM 	meve_person
-WHERE 	address = 'Rajshahi';
+WHERE 	address = 'Rajshahi'
+;
 
 --c
 SELECT *
 FROM  	meve_car
-WHERE 	YEAR = 2013;
+WHERE 	YEAR = 2013
+;
 
 --d
-SELECT *
+SELECT DRIVER 
 FROM 	meve_accident;
+		AND a.damage_amount >= 10000
+		AND a.damage_amount <= 15000
+	;
 
-
-
+--d using join
 SELECT p.*,a.*
 FROM 	meve_person p,
 		meve_accident a
 WHERE 	p.name = a.driver
 		AND a.damage_amount >= 10000
 		AND a.damage_amount <= 15000
+;
 
+--e
+SELECT w.NID 
+FROM 	meve_car c,
+		meve_owns w
+WHERE 	c.LICENSE = w.LICENSE 
+		AND c.MODEL = 'Axio'
+		;
 
+-- f
+SELECT p.NID , p.ADDRESS 
+FROM 	meve_person p
+		LEFT JOIN meve_owns w
+		ON p.NID = w.NID 
+			LEFT JOIN 	meve_car C
+			ON w.LICENSE = c.LICENSE 
+WHERE 	c.MODEL = 'Alto'
+
+--g
+SELECT 	DRIVER 
+FROM 	meve_log
+WHERE 	ADATE <= TO_DATE('20/12/2011', 'DD/MM/YYYY') 
+;
+
+--h
+SELECT p.* 
+FROM 	meve_person p
+		LEFT JOIN meve_owns w
+		ON p.NID = w.NID 
+WHERE 	w.LICENSE = '12-4000'
+;
+
+--i
+SELECT p.NAME 
+FROM 	meve_person p
+		LEFT JOIN meve_owns W
+		ON  p.NID = w.NID 
+			LEFT JOIN meve_log l
+			ON l.LICENSE = w.LICENSE 
+WHERE 	l.DRIVER = 'Arif'
+;
+	
+--j
+SELECT 	MODEL 
+FROM 	meve_car c
+		LEFT JOIN meve_log l
+		ON l.LICENSE = c.LICENSE 
+WHERE 	ADATE <= TO_DATE('19/09/2015', 'DD/MM/YYYY') 
+;
+
+--k
+SELECT 	Count(*)
+FROM 	meve_accident
+WHERE 	DRIVER = 'Arif'
+;
+-- l
+SELECT  ADATE 
+FROM 	meve_log 
+WHERE 	DRIVER = 'Arif'
+;
+
+--m
+--UPDATE 	meve_person 
+SET 	ADDRESS= 'Natore' 
+WHERE 	name = 'Arif'
+
+SELECT *
+FROM 	meve_person
