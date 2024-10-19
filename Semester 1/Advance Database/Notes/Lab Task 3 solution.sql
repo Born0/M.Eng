@@ -186,6 +186,8 @@ FROM 	meve_person p
 WHERE 	l.DRIVER = 'Arif'
 ;
 	
+to_lower(adress) = 'rajshai'
+
 --j
 SELECT 	MODEL 
 FROM 	meve_car c
