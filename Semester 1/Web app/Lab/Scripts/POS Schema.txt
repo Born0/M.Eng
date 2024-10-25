@@ -1,0 +1,63 @@
+//POS system DB Design for Convenient store/ super shop.
+
+generic instruction 
+1. Tables:
+        Plural nouns, usually.
+        Example: Customers
+2. Columns:
+        Descriptive singular nouns or adjectives. Do not use table name as prefix.
+        Example: name, is_active  --- correct 
+                Customer_name, customer_is_active  --- wrong
+3. Foreign Keys:
+        Reference primary key column name.
+        Example: Foreign Table name(singular) + '_id' or Foreign Table name(singular) + '_code'
+
+4. All tables must have datetime stamp (inserted_on, updated_on)should be set automatically from system time. Allow null 
+5. All tables must have Users.id foreign key(inserted_by, updated_by). Allow null 
+
+---- General Tables----
+-----------------------
+Contacts: id, email2, phone2, country,region,city,address_line1,address_line2
+OrganizationCategories: id, code, description
+Organizations: id, org_category_id->OrganizationCategories.id, name, contact_id->Contacts.id
+Users: org_id->Organization.id, id, first_name, last_name, full_name(auto concat first + last name), primary_email, primary_phone, password, contact_id->Contacts.id, is_discontinued, is_deleted
+UOMs:org_id->Organizations.id, code, description
+
+----Products---- 
+----------------
+ProductCategories:id, parent_id, code, description, uom_code->UOMs.code
+Products: org_id->Organization.id, product_category_id->ProductCategories.id, code, barcode, mrp, sale_price
+
+----Purchase----
+-----------------
+Purchases:org_id-> Organizations.id, id, code, supplier_id->Users.id, grand_total_amount
+PurchaseDetails: id, purchase_id -> Purchases.id , product_id->Products.id, uom_code->UOMs.code, purchase_price, Quantity , total_amount
+
+----Stock----
+-------------
+StockDetails: id,product_id->Products.id, purchase_details_id->PurchaseDetails.id, quantity , unit_cost 
+
+---Discount---
+--------------
+Discounts: id, discount_class(coupon_code, store_sale), type(Percentage, Fixed Amount), value, description
+DiscountOnProducts:product_id->Products.id,discount_id->Discounts.id, start_date, end_date
+
+---Sales---
+-----------
+PaymentTypes: code, description('Cash', 'Card', 'Other')
+SalesOrders: id, buyer_id->Users.id, sales_man_id->Users.id, total_amount, total_discount, grand_total_amount,payment_type->PaymentTypes.code
+SalesOrderDetails: id, sales_order_id->SalesOrders.id, product_id->Products.id, unit_price, quantity, subtotal_amount, discount_id->Discounts.id, total_amount
+
+---- Returns ----
+---------------
+SalesReturns: id, sales_order_id->SalesOrders.id, return_date, reason, total_amount
+SalesReturnDetails: id, sales_return_id->SalesReturns.id, sales_order_detail_id->SalesOrderDetails.id, product_id->Products.id, returned_quantity, refund_amount
+
+PurchaseReturns: id, purchase_id->Purchases.id, return_date, reason, total_amount
+PurchaseReturnDetails: id, purchase_return_id->PurchaseReturns.id, purchase_detail_id->PurchaseDetails.id, product_id->Products.id, returned_quantity, refund_amount
+
+
+----Finance----
+---------------
+TransactionTypes: code, description
+Finance: id, org_id->Organizations.id, pay_to/receive_from->Users.id, sales_order_id->SalesOrders.id (Optional, link to sales), purchase_id->Purchases.id (Optional, link to purchases), transaction_type->TransactionTypes.code , amount, due_date
