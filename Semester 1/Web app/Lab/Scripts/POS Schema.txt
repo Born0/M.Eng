@@ -17,10 +17,10 @@ generic instruction
 
 ---- General Tables----
 -----------------------
-Contacts: id, email2, phone2, country,region,city,address_line1,address_line2
+Contacts: id, org_id->Organizations.id, user_id->Users.id(ubique, nullable) email2, phone2, country,region,city,address_line1,address_line2
 OrganizationCategories: id, code, description
-Organizations: id, org_category_id->OrganizationCategories.id, name, contact_id->Contacts.id
-Users: org_id->Organization.id, id, first_name, last_name, full_name(auto concat first + last name), primary_email, primary_phone, password, contact_id->Contacts.id, is_discontinued, is_deleted
+Organizations: id, org_category_id->OrganizationCategories.id, name
+Users: org_id->Organization.id, id, first_name, last_name, full_name(auto concat first + last name), primary_email, primary_phone, password,  is_discontinued, is_deleted
 UOMs:org_id->Organizations.id, code, description
 
 ----Products---- 
