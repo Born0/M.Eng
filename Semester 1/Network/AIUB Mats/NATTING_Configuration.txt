@@ -1,0 +1,29 @@
+
+Sun Sep 6 15:34:52 2020   Router0   Router(config)#access-list 4 permit 172.16.0.0 0.0.1.255
+Sun Sep 6 15:35:17 2020   Router0   Router(config)#access-list 7 permit 172.16.2.0 0.0.0.127
+Sun Sep 6 15:36:10 2020   Router0   Router(config)#access-list 10 permit 172.16.2.128 0.0.0.31
+Sun Sep 6 15:37:19 2020   Router0   Router(config)#ip nat inside source list 4 interface s0/0/0 ?
+Sun Sep 6 15:37:53 2020   Router0   Router(config)#ip nat inside source list 4 interface s0/0/0 overload 
+Sun Sep 6 15:38:19 2020   Router0   Router(config)#ip nat inside source list 7 interface s0/0/0 overload 
+Sun Sep 6 15:38:31 2020   Router0   Router(config)#ip nat inside source list 10 interface s0/0/0 overload 
+Sun Sep 6 15:39:15 2020   Router0   Router(config)#int f0/0
+Sun Sep 6 15:39:22 2020   Router0   Router(config-if)#ip nat inside 
+Sun Sep 6 15:39:26 2020   Router0   Router(config-if)#exit
+Sun Sep 6 15:39:30 2020   Router0   Router(config)#int s0/0/0
+Sun Sep 6 15:39:35 2020   Router0   Router(config-if)#ip nat outside 
+Sun Sep 6 15:39:37 2020   Router0   Router(config-if)#exit
+Sun Sep 6 15:40:03 2020   Router1   Router>en
+Sun Sep 6 15:40:05 2020   Router1   Router#conf t
+Sun Sep 6 15:41:06 2020   Router1   Router(config)#ip nat inside source static 192.168.10.2 200.0.0.2
+Sun Sep 6 15:41:27 2020   Router1   Router(config)#int f0/0
+Sun Sep 6 15:41:31 2020   Router1   Router(config-if)#ip nat inside 
+Sun Sep 6 15:41:33 2020   Router1   Router(config-if)#exit
+Sun Sep 6 15:41:36 2020   Router1   Router(config)#int s0/0/0
+Sun Sep 6 15:41:40 2020   Router1   Router(config-if)#ip nat outside 
+Sun Sep 6 15:41:41 2020   Router1   Router(config-if)#exit
+Sun Sep 6 15:44:15 2020   Router1   Router(config)#exit
+Sun Sep 6 15:44:21 2020   Router1   Router#show ip nat translations 
+Sun Sep 6 15:45:49 2020   Router1   Router#show ip nat statistics 
+Sun Sep 6 15:46:25 2020   Router0   Router(config)#exit
+Sun Sep 6 15:46:31 2020   Router0   Router#show ip nat translations 
+Sun Sep 6 15:46:41 2020   Router0   Router#show ip nat statistics 
