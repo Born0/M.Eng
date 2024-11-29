@@ -76,3 +76,4 @@ SELECT name, address, mobile FROM meve_studentInfo WHERE  (address = 'Rajshahi' 
 -- roll is 05654456
 SELECT name, address, mobile FROM meve_studentInfo WHERE roll = '05654456';
 
+CREATE 
