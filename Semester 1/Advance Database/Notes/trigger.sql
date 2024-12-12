@@ -36,6 +36,7 @@ DECLARE
   
 BEGIN
 	
+	
     SELECT TO_CHAR(SYSDATE, 'Day') 
    	INTO v_current_day 
    	FROM dual;
